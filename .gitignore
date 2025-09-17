@@ -1,0 +1,59 @@
+# Ignore Visual Studio cache
+.vs/
+*.user
+*.suo
+
+# VS Code settings
+.vscode/
+
+# Build output
+bin/
+obj/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# Log files
+*.log
+
+# Resharper / Rider
+_ReSharper*/
+*.DotSettings.user
+
+# Temporary files
+*.vsidx
+*.dbmdl
+*.bak
+*.tmp
+
+# Entity Framework
+Migrations/obj/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+*.dll
+*.exe
+
+# Publish output
+*.publishsettings
+*.Publish.xml
+project.lock.json
+
+# Secrets / Config
+appsettings.Development.json
+secrets.json
+
+# Rider IDE
+.idea/
+*.iml
+
+# Mac / Linux extras
+.DS_Store
+Thumbs.db
