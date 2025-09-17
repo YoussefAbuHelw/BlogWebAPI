@@ -24,7 +24,7 @@ namespace Blog.Core.Models
         // Relations
         // 1. belongs to one category
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public Category Category { get; set; } 
 
         // 2 .one user create post
         public int UserID { get; set; }
