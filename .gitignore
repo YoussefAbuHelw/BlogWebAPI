@@ -32,7 +32,7 @@ _ReSharper*/
 
 # Entity Framework
 Migrations/obj/
-Blog.Infrastructure/Migrations
+Blog.Infrastructure/Migrations/
 
 
 # NuGet
