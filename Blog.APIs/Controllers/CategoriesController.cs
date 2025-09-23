@@ -15,17 +15,23 @@ namespace Blog.APIs.Controllers
     public class CategoriesController : ControllerBase
     {
         // DI
-        private readonly ICategoryService _category;
+        //private readonly ICategoryService _unitOfWork.CategoryService;
+        //public CategoriesController(ICategoryService category)
+        //{
+        //    _unitOfWork.CategoryService = category;
+        //}
 
-        public CategoriesController(ICategoryService category)
+        // DI
+        private readonly IUnitOfWork _unitOfWork;
+        public CategoriesController(IUnitOfWork unitOfWork)
         {
-            _category = category;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet("Old")] // https://localhost:7241/api/Categories/Old
         public async Task<IEnumerable<Category>> GetAll1()
         {
-            var Categories = await _category.GetAllAsync();
+            var Categories = await _unitOfWork.CategoryService.GetAllAsync();
             if (Categories is null || !Categories.Any())
                 return new List<Category>();
             return Categories;
@@ -37,7 +43,7 @@ namespace Blog.APIs.Controllers
         {
             try
             {
-                var categories = await _category.GetAllAsync();
+                var categories = await _unitOfWork.CategoryService.GetAllAsync();
                 if (!categories.Any() || categories is null)
                 {
                     return NotFound(new
@@ -77,7 +83,7 @@ namespace Blog.APIs.Controllers
         {
             try
             {
-                var category = await _category.GetByIdAsync(id);
+                var category = await _unitOfWork.CategoryService.GetByIdAsync(id);
 
                 if (category is null)
                     return NotFound(new
@@ -118,7 +124,7 @@ namespace Blog.APIs.Controllers
                         Message = "Invaild Category Data",
                         Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                     });
-                await _category.CreateAsync(new Category()
+                await _unitOfWork.CategoryService.CreateAsync(new Category()
                 {
                     Name = categoryDTo.Name,
                 });
@@ -149,7 +155,7 @@ namespace Blog.APIs.Controllers
         {
             try
             {
-                var oldCategory = await _category.GetByIdAsync(categoryDTo.Id);
+                var oldCategory = await _unitOfWork.CategoryService.GetByIdAsync(categoryDTo.Id);
                 if (oldCategory is null)
                     return NotFound(new
                     {
@@ -165,13 +171,13 @@ namespace Blog.APIs.Controllers
                         Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                     });
                 oldCategory.Name = categoryDTo.Name;
-                await _category.UpdateAsync(oldCategory);
+                await _unitOfWork.CategoryService.UpdateAsync(oldCategory);
                 return Ok(new
                 {
                     StatusCode = StatusCodes.Status200OK,
                     Message = "Category Updated successfully",
                     //Data = oldCategory
-                    Data = await _category.GetByIdAsync(categoryDTo.Id)
+                    Data = await _unitOfWork.CategoryService.GetByIdAsync(categoryDTo.Id)
                 });
             }
             catch (Exception ex)
@@ -193,7 +199,7 @@ namespace Blog.APIs.Controllers
         {
             try
             {
-                var oldCategory = await _category.GetByIdAsync(id);
+                var oldCategory = await _unitOfWork.CategoryService.GetByIdAsync(id);
                 if (oldCategory is null)
                     return NotFound(new
                     {
@@ -209,13 +215,13 @@ namespace Blog.APIs.Controllers
                         Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                     });
                 oldCategory.Name = categoryDTo.Name;
-                await _category.UpdateAsync(id, oldCategory);
+                await _unitOfWork.CategoryService.UpdateAsync(id, oldCategory);
                 return Ok(new
                 {
                     StatusCode = StatusCodes.Status200OK,
                     Message = "Category Updated successfully",
                     //Data = oldCategory
-                    Data = await _category.GetByIdAsync(id)
+                    Data = await _unitOfWork.CategoryService.GetByIdAsync(id)
                 });
             }
             catch (Exception ex)
@@ -239,14 +245,14 @@ namespace Blog.APIs.Controllers
         {
             try
             {
-                var category = await _category.GetByIdAsync(id);
+                var category = await _unitOfWork.CategoryService.GetByIdAsync(id);
                 if (category == null) return NotFound(new
                 {
                     StatusCode = StatusCodes.Status404NotFound,
                     Message = $"Category With Id {id} Not Found",
                 });
 
-                await _category.DeleteAsync(id);
+                await _unitOfWork.CategoryService.DeleteAsync(id);
                 return Ok(new
                 {
                     StatusCode = StatusCodes.Status200OK,

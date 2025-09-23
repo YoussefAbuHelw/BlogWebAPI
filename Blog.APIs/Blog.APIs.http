@@ -4,3 +4,7 @@ GET {{Blog.APIs_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{Blog.APIs_HostAddress}}/api/newcategories
+
+###
